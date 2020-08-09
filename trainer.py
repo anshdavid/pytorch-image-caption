@@ -88,8 +88,8 @@ def main(
 
     # TRAIN
 
-    # criterion = CrossEntropyLoss(ignore_index=train_set.vocab.stoi["<PAD>"])
-    criterion = NLLLoss(ignore_index=train_set.vocab.stoi["<PAD>"])
+    criterion = CrossEntropyLoss(ignore_index=train_set.vocab.stoi["<PAD>"])
+    # criterion = NLLLoss(ignore_index=train_set.vocab.stoi["<PAD>"])
     optimizer = Adam(model.parameters(), lr=TrainParams.learning_rate)
     nepochs = TrainParams.num_epochs
 
