@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader
 from torch.utils.data import SubsetRandomSampler
 from sklearn.model_selection import train_test_split
 
+from src.info import modelInfo
 from src.datagen import Datagen
 from src.utils import Collate
 from src.utils import getDevice
@@ -102,7 +103,7 @@ def main(
         dataloader_len=dataloader_len,
         input_shape=None,
         scheduler=None,
-        num_epochs=20)
+        num_epochs=nepochs)
 
 
 if __name__ == "__main__":
@@ -120,7 +121,8 @@ if __name__ == "__main__":
         )
 
     TrainParams = dc_TrainParams(
-        input_shape = (3, 256, 256)
+        input_shape = (3, 256, 256),
+        num_epochs = 50
     )
 
     main(LoaderParams, ModelParams, TrainParams)

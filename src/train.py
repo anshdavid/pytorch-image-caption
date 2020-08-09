@@ -6,20 +6,6 @@ from copy import deepcopy
 
 import torch
 
-try:
-    from torchsummary import summary
-except:
-    MODELSUMMARY = False
-else:
-    MODELSUMMARY = True
-
-try:
-    from sklearn.manifold import TSNE
-except:
-    VIZTSNE = False
-else:
-    VIZTSNE = True
-
 
 def train_model(
     model,
@@ -32,10 +18,6 @@ def train_model(
     scheduler=None,
     num_epochs=50,
 ):
-
-    if MODELSUMMARY and input_shape:
-        summary(model, input_data=input_shape)
-    print(f"-----------model-----------\n{model}\n---------------------------\n\n")
 
     start = time()
     best_model_wts = deepcopy(model.state_dict())
