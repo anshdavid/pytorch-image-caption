@@ -48,7 +48,7 @@ def main(
                     captions_file=LoaderParams.annotation_file,
                     transform=validation_transforms)
 
-    train_idx, val_idx = train_test_split(list(range(len(train_set.df))), test_size=val_split)  #type:ignore
+    train_idx, val_idx = train_test_split(list(range(len(train_set.df))), test_size=LoaderParams.val_split)  #type:ignore
     train_sampler = SubsetRandomSampler(train_idx)
     valid_sampler = SubsetRandomSampler(val_idx)
 
