@@ -1,0 +1,13 @@
+.mypy_cache
+.vscode
+
+dataset/images
+dataset/*.csv
+
+logs
+models
+**/*.pyc
+
+# add in readme!
+resources
+reference.py
