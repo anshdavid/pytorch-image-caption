@@ -84,8 +84,7 @@ def main(
                 vocab_size=vocab_size,
                 num_layers=ModelParams.num_layers,
                 device=device,
-                cnn_train_base=False,
-                cnn_fine_tune=True).to(device)
+                cnn_train_base=False).to(device)
 
     # TRAIN
 

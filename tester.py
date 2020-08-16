@@ -53,8 +53,7 @@ if __name__ == "__main__":
                 vocab_size=vocabSize,
                 num_layers=ModelParams.num_layers,
                 device=device,
-                cnn_train_base=False,
-                cnn_fine_tune=True).to(device)
+                cnn_train_base=False).to(device)
 
     model.load_state_dict(torch.load("./models/checkpoint.pth")["state_dict"])
     model.eval()

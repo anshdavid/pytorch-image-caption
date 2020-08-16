@@ -4,7 +4,6 @@ import torch
 import torch.nn as nn
 from torchvision import models
 
-
 class Identity(nn.Module):
     def __init__(self):
         super(Identity, self).__init__()
@@ -14,42 +13,32 @@ class Identity(nn.Module):
 
 class VGG16Encoder(nn.Module):
 
-    def __init__(self, output, device, train_base=False, fine_tune=True):
+    def __init__(self, output, device, train_base=False):
 
         super(VGG16Encoder, self).__init__()
 
-        # self.device = device
+        self.device = device
         self.output = output
         self.toTrain = train_base
-        self.toTune = fine_tune
 
         self.net_back = models.vgg16(pretrained=True)#.to(self.device)
         self._TrainTune()
 
         self.net_back.classifier = Identity()
-        self.net_head = nn.Sequential(
-            nn.Linear(in_features=25088, out_features=1024),
-            nn.Dropout(0.5),
-            nn.ReLU(),
-            nn.Linear(in_features=1024, out_features=self.output)
-            )
+        self.linear = nn.Linear(in_features=25088, out_features=self.output)
+        self.bn = nn.BatchNorm1d(self.output, momentum=0.01)
 
     def _TrainTune(self):
 
-        for name, param in self.net_back.named_parameters():
-            # fine tune !
-            if "fc.weight" in name or "fc.bias" in name:
-                param.requires_grad = self.toTune
-            # is trainable ?
-            else:
-                param.requires_grad = self.toTrain
+        for param in self.net_back.parameters():
+            param.requires_grad = self.toTrain
 
 
     def forward(self, image):
 
-        x = self.net_back(image)#.to(self.device))
+        x = self.net_back(image)
         x = x.view(x.size(0), -1)
-        return self.net_head(x)#.to(self.device))
+        return self.bn(self.linear(x))
 
 
 class LSTMDecoder(nn.Module):
@@ -83,7 +72,6 @@ class LSTMDecoder(nn.Module):
         #     nn.Dropout(0.5),
         # )
 
-
     def forward(self, features, captions):
 
         embeddings = self.dropout(self.embed(captions))
@@ -102,8 +90,7 @@ class CNNtoRNN(nn.Module):
         vocab_size,
         num_layers,
         device,
-        cnn_train_base=False,
-        cnn_fine_tune=True):
+        cnn_train_base=False):
 
         super(CNNtoRNN, self).__init__()
 
@@ -112,8 +99,7 @@ class CNNtoRNN(nn.Module):
         self.encoderCNN = VGG16Encoder(
             output=embed_size,
             device=device,
-            train_base=cnn_train_base,
-            fine_tune=cnn_fine_tune)
+            train_base=cnn_train_base)
 
         self.decoderRNN = LSTMDecoder(
             embed_size=embed_size,

@@ -13,5 +13,6 @@ Pytorch Image Captioning
 [`src/architecture.py`](./src/architecture.py) for creating encoder, decoder and hooking them together.
 
 
-## Results
+## [Reference](https://github.com/yunjey/pytorch-tutorial/tree/0500d3df5a2a8080ccfccbc00aca0eacc21818db/tutorials/03-advanced/image_captioning) 
+
 

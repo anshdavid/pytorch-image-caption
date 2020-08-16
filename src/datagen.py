@@ -33,6 +33,7 @@ class Datagen(Dataset):
 
         caption = self.labels[index]
         img_id = self.images[index]
+        
         img = Image.open(os.path.join(self.root_dir, img_id)).convert("RGB")
 
         if self.transform:
